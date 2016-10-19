@@ -1,0 +1,37 @@
+from Utils.singleton import Singleton
+
+
+class RConfig(Singleton):
+    """Config Class
+
+    This class store some import parameters of the app.
+    Such as database username, password, etc.
+    """
+
+    def __init__(self):
+        if hasattr(self, '_init'):
+            return
+        self._init = True
+        self.admin_password = "password"
+        self.login_expired_time = 30 * 24 * 3600
+        self.db_user = "drive"
+        self.db_password = "drive"
+        self.db_host = "127.0.0.1"
+        self.db_port = 5432
+        self.db_database = "drive"
+        self.db_min_cached = 5
+        self.db_max_cached = 40
+        self.db_max_shared = 40
+        self.db_max_connections = 40
+        self.work_dir = "/home/herbertqiao/.GDWeb/"
+        self.credential_path = "credential/"
+        self.block_path = "block/"
+        self.upload_path = "upload/"
+        self.split_size = 4194304
+        self.max_block_size = self.split_size * 16
+        self.cache_max_size = self.split_size * 16 * 100
+        self.retry_times = 3
+        self.default_priority = 10
+        self.minus_priority = 1
+        self.add_priority = 10
+        self.re_upload_limit = 10

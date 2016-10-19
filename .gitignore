@@ -1,0 +1,5 @@
+.idea
+Utils/config.py
+Drive/client_secret.json
+*/__pycache__
+*.pyc
