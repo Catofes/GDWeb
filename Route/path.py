@@ -143,7 +143,7 @@ class RPath:
         resp.body = self.text
         resp.set_header("content-type", "text/html; charset=utf-8")
 
-    def on_post(self, req, resp, path_id):
+    def on_post(self, req, resp, path_id=None):
         db = req.context['sql']
         if req.get_param('admin') != RConfig().admin_password:
             raise RError(403)
