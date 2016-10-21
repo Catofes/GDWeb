@@ -88,7 +88,7 @@ class RManage:
             blocks = blocks[1:]
 
     def re_upload_block(self):
-        blocks = RDateBasePool().execute("SELECT id,file_id FROM block WHERE status<=0 GROUP BY id", ())
+        blocks = RDateBasePool().execute("SELECT DISTINCT ON(id) id,file_id FROM block WHERE status<=0", ())
         for block in blocks:
             self.db = RDateBasePool().begin()
             result = self.db.execute("SELECT * FROM cache WHERE block_id = %s", (block['id']))
