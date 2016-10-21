@@ -1,4 +1,4 @@
-import argparse, uuid, queue, zlib, os, random
+import argparse, uuid, queue, zlib, os, time
 from Utils.config import RConfig
 from Utils.database import RDateBasePool
 from Drive.auth import RAuth
@@ -122,4 +122,6 @@ class GDBlock:
 
 
 if __name__ == '__main__':
-    GDBlock().generate()
+    while True:
+        GDBlock().generate()
+        time.sleep(60)

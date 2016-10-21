@@ -120,3 +120,6 @@ class RManage:
                 continue
             self.db.commit()
             print("Re Download block %s." % block['id'])
+
+if __name__ == '__main__':
+    RManage().run()
