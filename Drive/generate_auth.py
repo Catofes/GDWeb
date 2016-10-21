@@ -6,12 +6,12 @@ from Utils.database import RDateBasePool
 import argparse, uuid
 
 
-def generate_credentials(id, secret):
+def generate_credentials(id, secret, folder):
     path = RConfig().work_dir + RConfig().credential_path
     output = str(uuid.uuid4())
     output_file = path + "credential/" + output + ".json"
     secret_file = path + "secret/" + secret
-    #print(secret_file)
+    # print(secret_file)
     store = Storage(output_file)
     credentials = store.get()
     if credentials and credentials.invalid:
@@ -31,16 +31,18 @@ oauth_scope:
 """ % (secret_file, output_file)
     with open(setting_file, "w") as f:
         f.write(setting_content)
-    RDateBasePool().execute("INSERT INTO auth(id, secret_file, credential_file, setting_file) VALUES (%s, %s, %s, %s);",
-                            (id, secret_file, output_file, setting_file))
+    RDateBasePool().execute(
+        "INSERT INTO auth(id, secret_file, credential_file, setting_file, folder) VALUES (%s, %s, %s, %s, %s);",
+        (id, secret_file, output_file, setting_file, folder))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--secret", help="Google Api Secret File.")
     parser.add_argument("-i", "--id", help="Google User Id.")
+    parser.add_argument("-f", "--folder", help="Google User Folder")
     args = parser.parse_args()
-    if not args.id or not args.secret:
+    if not args.id or not args.secret or not args.folder:
         print("Missing Parameters.")
         exit(1)
-    generate_credentials(args.id, args.secret)
+    generate_credentials(args.id, args.secret, args.folder)
