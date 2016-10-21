@@ -66,13 +66,16 @@ class DFile(io.RawIOBase):
             self.split_data = io.BytesIO()
             if not result:
                 return
-            result=result[0]
+            result = result[0]
             file_id = result['file_id']
             service = RAuth().get_credential(result['auth_id'])
             request = service.files().get_media(fileId=file_id)
-            request.headers["Range"]="bytes=%s-%s"%(self.split.block_offset, self.split.block_offset + self.split.length)
+            request.headers['Range'] = "bytes=%s-%s" % \
+                                       (self.split.block_offset, self.split.block_offset + self.split.length)
             try:
-                tmp=request.execute()
+                print("Get Split %s at Block %s in %s." %
+                      (self.split_id, self.split.block_id, str(request.headers['Range'])))
+                tmp = request.execute()
                 if zlib.crc32(tmp) != self.split.crc:
                     raise RError(2)
                 self.split_data.write(tmp)
@@ -106,6 +109,7 @@ class DFile(io.RawIOBase):
                 try:
                     self.load_split(split)
                 except DownloadError:
+                    print("DownloadError at split %s" % self.split_id)
                     times += 1
                     time.sleep(1)
                     continue
