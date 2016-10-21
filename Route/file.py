@@ -16,6 +16,8 @@ class RFile:
         result = result[0]
         resp.set_header("content-disposition",
                         "attachment; filename=\"%s\"" % quote(result['name'], encoding='utf-8'))
+        resp.set_header("content-type", "application/octet-stream")
+        resp.set_header("content-length", "length")
         if req.range:
             start = req.range(0)
             if req.range(1) > start:
