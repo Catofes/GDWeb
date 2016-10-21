@@ -69,24 +69,19 @@ class DFile(io.RawIOBase):
             result=result[0]
             file_id = result['file_id']
             service = RAuth().get_credential(result['auth_id'])
+            request = service.files().get_media(fileId=file_id)
+            request.headers["Range"]="bytes=%s-%s"%(self.split.offset, self.split.offset + self.split.length)
             try:
-                request = service.files().get_media(fileId=file_id).execute()
-            except Exception:
-                raise DownloadError(self.split.block_id)
-            download_url = request.get('downloadUrl')
-            resp, content = service._http.request(download_url, headers={
-                'Range': "bytes=%s-%s" % (self.split.offset, self.split.offset + self.split.length)})
-            if resp.status == 200 or resp.status == 206:
-                tmp = content.read()
+                tmp=request.execute()
                 if zlib.crc32(tmp) != self.split.crc:
                     raise RError(2)
                 self.split_data.write(tmp)
                 self.split_data.seek(0)
-                self.db.execute("UPDATE block SET status='%s' WHERE file_id = %s", (self.config.re_upload_limit, file_id))
-            else:
+                self.db.execute("UPDATE block SET status='%s' WHERE file_id = '%s'",
+                                (self.config.re_upload_limit, file_id))
+            except Exception:
                 RDateBasePool().execute("UPDATE block SET status=status-1 WHERE file_id = %s", (file_id,))
                 raise DownloadError(self.split.block_id)
-            RAuth().save_credential(service)
 
     def find_split(self):
         while True:
