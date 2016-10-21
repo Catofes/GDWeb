@@ -70,7 +70,7 @@ class DFile(io.RawIOBase):
             file_id = result['file_id']
             service = RAuth().get_credential(result['auth_id'])
             request = service.files().get_media(fileId=file_id)
-            request.headers["Range"]="bytes=%s-%s"%(self.split.offset, self.split.offset + self.split.length)
+            request.headers["Range"]="bytes=%s-%s"%(self.split.block_offset, self.split.block_offset + self.split.length)
             try:
                 tmp=request.execute()
                 if zlib.crc32(tmp) != self.split.crc:
