@@ -26,7 +26,7 @@ class RManage:
 
     def download(self):
         self.delete_block()
-        blocks = RDateBasePool().execute("SELECT * FROM cache WHERE upload=-1")
+        blocks = RDateBasePool().execute("SELECT * FROM cache WHERE upload=-1", ())
         for block in blocks:
             self.db = RDateBasePool().begin()
             try:
@@ -75,8 +75,7 @@ class RManage:
             return
         blocks = RDateBasePool().execute(
             "SELECT DISTINCT ON(id) id,block_length,upload FROM block JOIN cache ON block_id "
-            "WHERE upload<1 ORDER BY priority",
-            ())
+            "WHERE upload<1 ORDER BY priority", ())
         for block in blocks:
             if size < self.config.cache_max_size:
                 break
