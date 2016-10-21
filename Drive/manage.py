@@ -52,7 +52,7 @@ class RManage:
             raise BlockBroken()
         block = random.choice(blocks)
         print("Download block %s from file %s." % (block['id'], block['file_id']))
-        auth = self.auth.get_auth(block['auth_id'])
+        auth, no_use, no_use = self.auth.get_auth(block['auth_id'])
         drive = GoogleDrive(auth)
         f = drive.CreateFile({'id': block['file_id']})
         path = self.config.work_dir + self.config.block_path + block_id
