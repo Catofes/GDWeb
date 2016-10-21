@@ -44,7 +44,7 @@ class RManage:
                 print("Block Broken at %s." % (block['block_id']))
                 continue
             self.db.commit()
-            print("Download block %s." % block['block_id'])
+            print("Downloaded block %s." % block['block_id'])
 
     def download_one_block(self, block_id):
         blocks = self.db.execute("SELECT * FROM block WHERE id =%s AND status>0", (block_id,))
