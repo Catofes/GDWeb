@@ -67,13 +67,15 @@ class RManage:
     def delete_block(self):
         result = RDateBasePool().execute(
             "SELECT SUM(t.block_length) AS size FROM"
-            "(SELECT block_length FROM block WHERE id IN (SELECT block_id FROM cache WHERE upload<1) GROUP BY id) AS t",
+            "(SELECT DISTINCT ON(id) id,block_length FROM block WHERE id IN "
+            "(SELECT block_id FROM cache WHERE upload<1)) AS t",
             ())
         size = result[0]['size']
         if size < self.config.cache_max_size:
             return
         blocks = RDateBasePool().execute(
-            "SELECT id,block_length,upload FROM block JOIN cache ON block_id WHERE upload<1 GROUP BY id ORDER BY priority",
+            "SELECT DISTINCT ON(id) id,block_length,upload FROM block JOIN cache ON block_id "
+            "WHERE upload<1 ORDER BY priority",
             ())
         for block in blocks:
             if size < self.config.cache_max_size:
@@ -120,6 +122,7 @@ class RManage:
                 continue
             self.db.commit()
             print("Re Download block %s." % block['id'])
+
 
 if __name__ == '__main__':
     RManage().run()
