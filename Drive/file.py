@@ -66,7 +66,8 @@ class DFile(io.RawIOBase):
             self.split_data = io.BytesIO()
             if not result:
                 return
-            file_id = result[0]['file_id']
+            result=result[0]
+            file_id = result['file_id']
             service = RAuth().get_credential(result['auth_id'])
             try:
                 request = service.files().get_media(fileId=file_id).execute()
