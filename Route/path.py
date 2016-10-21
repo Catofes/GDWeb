@@ -65,6 +65,15 @@ class RPath:
 </html>
 """
 
+    @staticmethod
+    def _get_size(size):
+        key = ["B", "KB", "MB", "GB"]
+        i = 1
+        while i < len(key) and size > 1024:
+            i += 1
+            size /= 1024
+        return "%s%s" % (size, key[i - 1])
+
     def on_get(self, req, resp, path_id=None):
         admin = False
         if "admin" in req.params and req.params['admin'] == RConfig().admin_password:
@@ -119,7 +128,7 @@ class RPath:
         <td>%s</td>
         <td>%s</td>
     </tr>
-""" % (f["id"], f["name"], f["create_at"], f["size"])
+""" % (f["id"], f["name"], f["create_at"], self._get_size(f["size"]))
         self.text += "</table>"
         if admin:
             self.text += """
