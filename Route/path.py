@@ -72,7 +72,7 @@ class RPath:
         while i < len(key) and size > 1024:
             i += 1
             size /= 1024
-        return "%s%s" % (size, key[i - 1])
+        return "%s%s" % (round(size, 2), key[i - 1])
 
     def on_get(self, req, resp, path_id=None):
         admin = False
