@@ -1,7 +1,12 @@
 # -*- coding: UTF-8 -*-
-import psycopg2
-import psycopg2.extras
-import psycopg2.pool
+try:
+    import psycopg2
+    import psycopg2.extras
+    import psycopg2.pool
+except ImportError:
+    # Fall back to psycopg2cffi
+    from psycopg2cffi import compat
+    compat.register()
 
 from Utils.singleton import Singleton
 from Utils.config import RConfig
