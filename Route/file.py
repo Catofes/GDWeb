@@ -18,7 +18,7 @@ class RFile:
                         "attachment; filename=\"%s\"" % quote(result['name'], encoding='utf-8'))
         resp.set_header("content-type", "application/octet-stream")
         resp.set_header("content-length", "length")
-        resp.set_header("cache-control","max-age=864000")
+        resp.set_header("Cache-Control","max-age=864000")
         if req.range:
             start = req.range(0)
             if req.range(1) > start:
