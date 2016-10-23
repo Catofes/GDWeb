@@ -87,7 +87,7 @@ class RPath:
             raise RError(404)
         children = db.execute("SELECT * FROM path WHERE parent_id=%s", (path_id,))
         self.text += """<h2 id="pathName">%s</h2>""" % path['name']
-        self.text += """<h4 id="absolutePath">%s</h4>""" % path['path']
+        self.text += """<h4 id="absolutePath">%s/</h4>""" % path['path']
         self.text += """
 <table class="table">
     <tr>
@@ -99,7 +99,7 @@ class RPath:
         if path['parent_id']:
             self.text += """
     <tr>
-        <td><a href="/path/%s">%s</a></td>
+        <td><a href="/path/%s">%s/</a></td>
         <td>%s</td>
         <td>%s</td>
     </tr>
@@ -116,7 +116,7 @@ class RPath:
         for f in folders:
             self.text += """
     <tr>
-        <td><a href="/path/%s">%s</a></td>
+        <td><a href="/path/%s">%s/</a></td>
         <td>%s</td>
         <td>%s</td>
     </tr>
