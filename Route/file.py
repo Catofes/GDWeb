@@ -17,7 +17,6 @@ class RFile:
         resp.set_header("content-disposition",
                         "attachment; filename=\"%s\"" % quote(result['name'], encoding='utf-8'))
         resp.set_header("content-type", "application/octet-stream")
-        resp.set_header("content-length", "length")
         resp.set_header("Cache-Control", "max-age=864000")
         if req.range:
             start = req.range[0]
@@ -36,4 +35,5 @@ class RFile:
         else:
             stream = DFile(file_id, db, start, length)
 
+        resp.set_header("content-length", length)
         resp.set_stream(stream, length)
