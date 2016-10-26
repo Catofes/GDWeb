@@ -2,7 +2,7 @@ from Utils.error import RError
 from Utils.config import RConfig
 from Drive.file import DFile
 from urllib.parse import quote
-
+import falcon
 
 class RFile:
     def __init__(self):
@@ -26,6 +26,7 @@ class RFile:
                 length = result['size'] - req.range[0] + req.range[1] + 1
             else:
                 raise RError(400)
+            resp.status = falcon.HTTP_206
         else:
             start = 0
             length = result['size']
