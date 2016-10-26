@@ -27,6 +27,7 @@ class RFile:
             else:
                 raise RError(400)
             resp.status = falcon.HTTP_206
+            resp.set_header("Cache-Control", "")
         else:
             start = 0
             length = result['size']
