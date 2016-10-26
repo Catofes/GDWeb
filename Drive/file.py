@@ -116,6 +116,8 @@ class DFile(io.RawIOBase):
                 break
         if times == self.config.retry_times:
             raise RError(2)
+        if self.length < size:
+            size = self.length
         data = self.split_data.read(size)
         self.start += len(data)
         self.length -= len(data)
