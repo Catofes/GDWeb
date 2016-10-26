@@ -20,11 +20,11 @@ class RFile:
         resp.set_header("content-length", "length")
         resp.set_header("Cache-Control","max-age=864000")
         if req.range:
-            start = req.range(0)
-            if req.range(1) > start:
-                length = req.range(1) - start
-            elif req.range(1) < 0:
-                length = result['size'] - req.range(0) + req.range(1) + 1
+            start = req.range[0]
+            if req.range[1] > start:
+                length = req.range[1] - start
+            elif req.range[1] < 0:
+                length = result['size'] - req.range[0] + req.range[1] + 1
             else:
                 raise RError(400)
         else:
