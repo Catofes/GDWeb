@@ -56,7 +56,7 @@ class RPath:
             Dropzone.options.uploadFile = {
                 url: window.location.href,
                 uploadMultiple: true,
-                maxFilesize: 10G
+                maxFilesize: 10240
             }
 
 </script>
