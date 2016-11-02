@@ -54,7 +54,7 @@ class RPath:
                 }
             };
             Dropzone.options.uploadFile = {
-                url: window.location.origin + "/upload" + window.location.pathname + window.location.search,
+                url: window.location.href,
                 uploadMultiple: true,
                 maxFilesize: 10240
             }
