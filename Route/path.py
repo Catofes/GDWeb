@@ -82,9 +82,10 @@ class RPath:
         db = req.context['sql']
         if not path_id:
             path_id = db.execute("SELECT * FROM path WHERE parent_id IS NULL", ())[0]['id']
-        path = db.execute("SELECT * FROM path WHERE id=%s;", (path_id,))[0]
+        path = db.execute("SELECT * FROM path WHERE id=%s;", (path_id,))
         if not path:
             raise RError(404)
+        path = path[0]
         children = db.execute("SELECT * FROM path WHERE parent_id=%s", (path_id,))
         self.text += """<h2 id="pathName">%s</h2>""" % path['name']
         self.text += """<h4 id="absolutePath">%s/</h4>""" % path['path']
