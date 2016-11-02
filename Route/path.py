@@ -55,7 +55,8 @@ class RPath:
             };
             Dropzone.options.uploadFile = {
                 url: window.location.href,
-                uploadMultiple: true
+                uploadMultiple: true,
+                maxFilesize: 10G
             }
 
 </script>
@@ -115,13 +116,23 @@ class RPath:
         sorted(files, key=lambda x: x['name'])
         sorted(folders, key=lambda x: x['name'])
         for f in folders:
-            self.text += """
+            if admin:
+                self.text += """
+    <tr>
+        <td><a href="/path/%s?admin=%s">%s/</a></td>
+        <td>%s</td>
+        <td>%s</td>
+    </tr>
+""" % (f["id"], RConfig().admin_password, f["name"], f["create_at"], 0)
+            else:
+                self.text += """
     <tr>
         <td><a href="/path/%s">%s/</a></td>
         <td>%s</td>
         <td>%s</td>
     </tr>
 """ % (f["id"], f["name"], f["create_at"], 0)
+
         for f in files:
             self.text += """
     <tr>
