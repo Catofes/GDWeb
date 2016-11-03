@@ -4,6 +4,7 @@ from Drive.file import DFile
 from urllib.parse import quote
 import falcon
 
+
 class RFile:
     def __init__(self):
         pass
@@ -16,7 +17,7 @@ class RFile:
         result = result[0]
         resp.set_header("content-disposition",
                         "attachment; filename=\"%s\"" % quote(result['name'], encoding='utf-8'))
-        resp.set_header("content-type", "application/octet-stream")
+        resp.set_header("content-type", result['mime'])
         resp.set_header("Cache-Control", "max-age=864000")
         if req.range:
             start = req.range[0]

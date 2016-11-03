@@ -176,19 +176,24 @@ class RPathUpload:
         if not path_id:
             path_id = db.execute("SELECT * FROM path WHERE parent_id IS NULL", ())[0]['id']
         path = db.execute("SELECT * FROM path WHERE id=%s;", (path_id,))[0]
+        files = set()
         for k, v in req.params.items():
-            if re.match("^file\[\d*\]$", k):
-                file_name = v.filename
-                file_id = str(uuid.uuid4())
-                file_path = RConfig().work_dir + RConfig().upload_path + file_id
-                file_length = 0
-                with open(file_path, "wb") as f:
-                    while True:
-                        data = v.file.read(8196)
-                        if not data:
-                            break
-                        file_length += len(data)
-                        f.write(data)
-                db.execute("INSERT INTO path(id, parent_id, type, name, create_at, path, status, size) VALUES "
-                           "(%s, %s, 1, %s, now(), %s, 1, %s)",
-                           (file_id, path_id, file_name, path['path'] + "/" + file_name, file_length))
+            # print(k, v)
+            reg = re.match("^file\[(\d*)\]$", k)
+            if reg:
+                files.add(reg.groups(0))
+            print(files)
+            # file_name = v.filename
+            # file_id = str(uuid.uuid4())
+            # file_path = RConfig().work_dir + RConfig().upload_path + file_id
+            #     file_length = 0
+            #     with open(file_path, "wb") as f:
+            #         while True:
+            #             data = v.file.read(8196)
+            #             if not data:
+            #                 break
+            #             file_length += len(data)
+            #             f.write(data)
+            #     db.execute("INSERT INTO path(id, parent_id, type, name, create_at, path, status, size) VALUES "
+            #                "(%s, %s, 1, %s, now(), %s, 1, %s)",
+            #                (file_id, path_id, file_name, path['path'] + "/" + file_name, file_length))
