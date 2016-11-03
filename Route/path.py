@@ -1,6 +1,6 @@
 from Utils.error import RError
 from Utils.config import RConfig
-import re, uuid
+import re, uuid, sys
 
 
 class RPath:
@@ -163,6 +163,11 @@ class RPath:
         self._generate_end(admin)
         resp.body = self.text
         resp.set_header("content-type", "text/html; charset=utf-8")
+
+
+class RPathUpload:
+    def __init__(self):
+        pass
 
     def on_post(self, req, resp, path_id=None):
         db = req.context['sql']
