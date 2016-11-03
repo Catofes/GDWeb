@@ -99,13 +99,22 @@ class RPath:
     </tr>
 """
         if path['parent_id']:
-            self.text += """
+            if admin:
+                self.text += """
+    <tr>
+        <td><a href="/path/%s?admin=%s">%s/</a></td>
+        <td>%s</td>
+        <td>%s</td>
+    </tr>
+                """ % (path['parent_id'], RConfig().admin_password, "..", path['create_at'], 0)
+            else:
+                self.text += """
     <tr>
         <td><a href="/path/%s">%s/</a></td>
         <td>%s</td>
         <td>%s</td>
     </tr>
-""" % (path['parent_id'], "..", path['create_at'], 0)
+    """ % (path['parent_id'], "..", path['create_at'], 0)
         files = []
         folders = []
         for child in children:
@@ -182,7 +191,7 @@ class RPathUpload:
             reg = re.match("^file\[(\d*)\].*$", k)
             if reg:
                 files.add(reg.groups(0))
-        #print(files)
+        # print(files)
         for f in files:
             file_name = req.get_param("file[%s].name" % f)
             file_path = req.get_param("file[%s].path" % f)
