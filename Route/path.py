@@ -179,10 +179,10 @@ class RPathUpload:
         files = set()
         for k, v in req.params.items():
             # print(k, v)
-            reg = re.match("^file\[(\d*)\]$", k)
+            reg = re.match("^file\[(\d*)\].*$", k)
             if reg:
                 files.add(reg.groups(0))
-            print(files)
+        print(files)
         for f in files:
             file_name = req.get_param("file[%s].name" % f)
             file_path = req.get_param("file[%s].path" % f)
