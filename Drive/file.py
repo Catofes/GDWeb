@@ -118,6 +118,7 @@ class DFile(io.RawIOBase):
             raise RError(2)
         if self.length < size:
             size = self.length
+        self.split_data.seek(self.start - self.split.offset)
         data = self.split_data.read(size)
         self.start += len(data)
         self.length -= len(data)
