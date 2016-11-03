@@ -30,6 +30,7 @@ class RFile:
                 raise RError(400)
             resp.status = falcon.HTTP_206
             resp.set_header("Cache-Control", "")
+            resp.set_header("Content-Range", "bytes %s-%s/%s" % (start, start + length - 1, result['size']))
         else:
             start = 0
             length = result['size']
