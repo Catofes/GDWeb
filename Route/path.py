@@ -183,6 +183,13 @@ class RPathUpload:
             if reg:
                 files.add(reg.groups(0))
             print(files)
+        for f in files:
+            file_name = req.get_param("file[%s].name" % f)
+            file_path = req.get_param("file[%s].path" % f)
+            file_size = req.get_param("file[%s].size" % f)
+            file_md5 = req.get_param("file[%s].md5" % f)
+            file_type = req.get_param("file[%s].content_type" % f)
+            print(file_name, file_path)
             # file_name = v.filename
             # file_id = str(uuid.uuid4())
             # file_path = RConfig().work_dir + RConfig().upload_path + file_id
