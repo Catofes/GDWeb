@@ -37,6 +37,7 @@ class RFile:
         if result['status'] == 1:
             path = RConfig().work_dir + RConfig().upload_path + result['id']
             stream = open(path, "rb")
+            stream.seek(start)
         else:
             stream = DFile(file_id, db, start, length)
 
