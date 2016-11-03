@@ -16,7 +16,7 @@ class RFile:
             raise RError(404)
         result = result[0]
         resp.set_header("content-disposition",
-                        "inline; filename*=UTF-8\'%s\'" % quote(result['name'], encoding='utf-8'))
+                        "inline; filename*=UTF-8\'\'\"%s\"" % quote(result['name'], encoding='utf-8'))
         resp.set_header("content-type", result['mime'])
         resp.set_header("Cache-Control", "max-age=864000")
         resp.set_header("file_md5", result['md5'])
