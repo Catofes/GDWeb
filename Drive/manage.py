@@ -70,6 +70,8 @@ class RManage:
             "(SELECT DISTINCT ON(id) id,block_length FROM block WHERE id IN "
             "(SELECT block_id FROM cache WHERE upload<1)) AS t",
             ())
+        if not result:
+            return
         size = result[0]['size']
         if size < self.config.cache_max_size:
             return
