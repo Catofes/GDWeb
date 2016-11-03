@@ -19,6 +19,7 @@ class RFile:
                         "attachment; filename=\"%s\"" % quote(result['name'], encoding='utf-8'))
         resp.set_header("content-type", result['mime'])
         resp.set_header("Cache-Control", "max-age=864000")
+        resp.set_header("file_md5", result['md5'])
         if req.range:
             start = req.range[0]
             if req.range[1] >= start:

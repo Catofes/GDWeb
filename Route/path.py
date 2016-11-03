@@ -1,6 +1,6 @@
 from Utils.error import RError
 from Utils.config import RConfig
-import re, uuid, sys
+import re, uuid, os
 
 
 class RPath:
@@ -189,7 +189,12 @@ class RPathUpload:
             file_size = req.get_param("file[%s].size" % f)
             file_md5 = req.get_param("file[%s].md5" % f)
             file_type = req.get_param("file[%s].content_type" % f)
-            print(file_name, file_path)
+            file_id = str(uuid.uuid4())
+            new_file_path = RConfig().work_dir + RConfig().upload_path + file_id
+            os.rename(file_path, new_file_path)
+            db.execute("INSERT INTO path(id, parent_id, type, name, create_at, path, status, size, mime, md5) VALUES "
+                       "(%s, %s, 1, %s, now(), %s, 1, %s, %s, %s)",
+                       (file_id, path_id, file_name, path['path'] + "/" + file_name, file_size, file_type, file_md5))
             # file_name = v.filename
             # file_id = str(uuid.uuid4())
             # file_path = RConfig().work_dir + RConfig().upload_path + file_id
